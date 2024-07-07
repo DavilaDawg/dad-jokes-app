@@ -52,7 +52,6 @@ exports.getAllUsers = async (req, res) => { // returns all messages from db usin
     }
 } 
 
-
 exports.signUp = async (req, res) => {
     try { 
         const user = await new userItem(req.body);
@@ -63,3 +62,14 @@ exports.signUp = async (req, res) => {
         console.log ("you fucked up signing up")
     }
 }
+
+exports.deleteUser = async (req, res) => {  // deleting from start of stack not end 
+    try {
+        const { username } = req.params;
+        await userItem.findOneAndDelete({ username });
+        res.status(200).json({ message: "User deleted successfully."});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "An error occurred while deleting the user." });
+    }
+};
